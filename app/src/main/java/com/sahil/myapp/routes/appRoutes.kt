@@ -21,7 +21,7 @@ fun AppNavGraph(navController: NavHostController) {
             val loginViewModel: LoginViewModel = viewModel(
                 factory = LoginViewModelFactory(LoginRepository())
             )
-            LoginScreen(navController = navController, viewModel = loginViewModel)
+            LoginScreen(navController = navController, )
         }
     }
 }

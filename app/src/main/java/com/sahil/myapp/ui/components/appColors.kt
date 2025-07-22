@@ -3,7 +3,7 @@ package com.sahil.myapp.ui.theme
 import androidx.compose.ui.graphics.Color
 
 object AppColor {
-    val mainColor = Color(0xFFFCD42F)
+    val mainColor = Color(0xFF4A90E2)
     val backgroundColor = Color(0xFFFFFFFF)
     val backgroundColorGrey = Color(0xFFF6F6F5)
     val greyTertiary = Color(0xFF6F6C62)

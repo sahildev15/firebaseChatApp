@@ -2,7 +2,6 @@
 package com.sahil.myapp.screens.onboardingScreens.auth.loginPage.view
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -10,24 +9,23 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.sahil.myapp.R
-import com.sahil.myapp.screens.onboardingScreens.auth.loginPage.viewmodel.LoginViewModel
+import com.airbnb.lottie.compose.*
 import com.sahil.myapp.ui.components.CommonButton
 import com.sahil.myapp.ui.components.CommonTextField
+import com.sahil.myapp.ui.components.SpaceLarge
+import com.sahil.myapp.ui.components.SpaceMedium
+import com.sahil.myapp.ui.components.SpaceSmall
 import com.sahil.myapp.ui.theme.AppColor
 import com.sahil.myapp.ui.theme.AppTextStyles
 
@@ -35,15 +33,19 @@ import com.sahil.myapp.ui.theme.AppTextStyles
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: LoginViewModel
+//    viewModel: LoginViewModel
 ) {
     val context = LocalContext.current
     var phoneNumber by remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.Asset("Chat.json")
+    )
 
-    val isLoading by viewModel.isLoading
-    val isSuccess by viewModel.isSuccess
-    val errorMessage by viewModel.errorMessage
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
 
     Scaffold(
         containerColor = AppColor.backgroundColor,
@@ -54,26 +56,38 @@ fun LoginScreen(
                 .safeContentPadding()
                 .verticalScroll(scrollState)
                 .imePadding()
-                .padding(horizontal = 0.dp, vertical = 10.dp),
+                .padding(horizontal = 16.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(Modifier.height(60.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
-            Image(
-                painter = painterResource(id = R.drawable.onboarding),
-                contentDescription = "Onboarding image",
+            LottieAnimation(
+                composition = composition,
+                progress = { progress },
                 modifier = Modifier
-                    .height(500.dp)
-                    .width(500.dp)
+                    .height(400.dp)
+                    .fillMaxWidth()
             )
+            Spacer(Modifier.height(90.dp))
 
             Text(
-                text = "Login To Create Poster",
+                text = "Login To Start Chatting",
                 style = AppTextStyles.roboto_font25_700_primary
             )
+            SpaceMedium()
+            Text(
+                text = "Find your all friend in one place by",
+                style = AppTextStyles.roboto_font13_400_tertiary
+            )
+            SpaceSmall()
+            Text(
+                text = "Signing the app quick and start your chit-chat",
+                style = AppTextStyles.roboto_font13_400_tertiary
+            )
 
-            Spacer(modifier = Modifier.height(16.dp))
+
+            Spacer(modifier = Modifier.height(30.dp))
 
             CommonTextField(
                 hint = "Enter Your Mobile Number",
@@ -87,23 +101,17 @@ fun LoginScreen(
                 isPassword = false,
                 prefixIcon = { Text("+91") }
             )
-
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(30.dp))
             CommonButton(
-                onClick = { viewModel.login(phoneNumber) },
-                isLoading = isLoading,
-                isButtonEnabled = phoneNumber.length == 10,
+                onClick = {
+//                    viewModel.login(phoneNumber)
+                },
+                isLoading = false,
+                isButtonEnabled = true,
                 title = "Get Otp",
             )
-            Spacer(modifier = Modifier.height(16.dp))
 
-            if (errorMessage.isNotEmpty()) {
-                Text(
-                    text = errorMessage,
-                    color = Color.Red,
-                    style = AppTextStyles.inter_font12_400_secondary
-                )
-            }
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = "By Continuing, You Agree To Our ",
@@ -132,4 +140,12 @@ fun LoginScreen(
             }
         }
     }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewLogin() {
+    val navController = rememberNavController()
+    LoginScreen(navController = navController)
 }

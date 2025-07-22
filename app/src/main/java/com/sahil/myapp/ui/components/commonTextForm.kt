@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.sahil.myapp.ui.theme.AppTextStyles
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -63,7 +64,7 @@ fun CommonTextField(
                     style = TextStyle(fontSize = 13.sp, color = Color.Gray)
                 )
             },
-            textStyle = TextStyle(fontSize = 13.sp),
+            textStyle = AppTextStyles.archivo_font12_500_primary,
             singleLine = !isPassword,
             enabled = enabled,
             isError = isError,
